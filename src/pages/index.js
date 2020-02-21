@@ -1,3 +1,11 @@
 import React from "react"
 
-export default () => <div>Hello world!</div>
+class CreditCardForm extends React.component {
+  render(){
+    return(
+      <div>Hello world!</div>
+    )
+  }
+}
+
+export default () => CreditCardForm
