@@ -27,6 +27,33 @@ const CARD_OPTIONS = {
   },
 };
 
+const Field = ({
+                 label,
+                 id,
+                 type,
+                 placeholder,
+                 required,
+                 autoComplete,
+                 value,
+                 onChange,
+               }) => (
+  <div className="FormRow">
+    <label htmlFor={id} className="FormRowLabel">
+      {label}
+    </label>
+    <input
+      className="FormRowInput"
+      id={id}
+      type={type}
+      placeholder={placeholder}
+      required={required}
+      autoComplete={autoComplete}
+      value={value}
+      onChange={onChange}
+    />
+  </div>
+);
+
 const CardField = ({onChange}) => (
   <div className="FormRow">
     <CardElement options={CARD_OPTIONS} onChange={onChange} />
@@ -78,6 +105,9 @@ const CheckoutForm = () => {
   const [cardComplete, setCardComplete] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState(null);
+  const [billingDetails, setBillingDetails] = useState({
+       name: '',
+  });
 
   
   const handleSubmit = async (event) => {
@@ -100,7 +130,8 @@ const CheckoutForm = () => {
     
     const payload = await stripe.createPaymentMethod({
       type: 'card',
-      card: elements.getElement(CardElement)
+      card: elements.getElement(CardElement),
+      billing_details: billingDetails,
     });
     
     setProcessing(false);
@@ -116,6 +147,9 @@ const CheckoutForm = () => {
     setError(null);
     setProcessing(false);
     setPaymentMethod(null);
+    setBillingDetails({
+      name: '',
+    });
   };
   
   return paymentMethod ? (
@@ -130,6 +164,20 @@ const CheckoutForm = () => {
     </div>
   ) : (
     <form className="Form" onSubmit={handleSubmit}>
+      <fieldset className="FormGroup">
+        <Field
+          label="Name"
+          id="name"
+          type="text"
+          placeholder="Jane Doe"
+          required
+          autoComplete="name"
+          value={billingDetails.name}
+          onChange={(e) => {
+            setBillingDetails({...billingDetails, name: e.target.value});
+          }}
+        />
+      </fieldset>
       <fieldset className="FormGroup">
         <CardField
           onChange={(e) => {
@@ -156,7 +204,7 @@ const ELEMENTS_OPTIONS = {
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
-const stripePromise = loadStripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
+const stripePromise = loadStripe('pk_test_YDEmlfG4cjIkLJpFIZqeshkK');
 
 const App = () => {
   return (
