@@ -2,6 +2,11 @@
     box-sizing: border-box;
 }
 
+#gatsby-focus-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
 input,
 button {
     -webkit-appearance: none;
@@ -30,11 +35,9 @@ body {
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
 }
 
 .AppWrapper {
-    display: flex;
     width: 500px;
     height: 400px;
     position: relative;
@@ -97,6 +100,7 @@ body {
         opacity: 1;
     }
 }
+
 .FormRowInput:-webkit-autofill {
     -webkit-text-fill-color: #fce883;
     /* Hack to hide the default webkit autofill */
@@ -153,6 +157,7 @@ body {
 .SubmitButton.SubmitButton--error {
     transform: translateY(15px);
 }
+
 .SubmitButton.SubmitButton--error:active {
     transform: scale(0.99) translateY(15px);
 }
